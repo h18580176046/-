@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日点菜助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0e6d2;
+        }
+        h1 {
+            color: #d2691e;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* 菜品列表样式 */
+        .dishes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .dish-card {
+            background: #fff8e8;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #f0e6d2;
+            transition: all 0.3s ease;
+        }
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            border-color: #d2691e;
+        }
+        .dish-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 8px;
+        }
+        .dish-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .special-tag {
+            display: inline-block;
+            background: #d2691e;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        /* 随机选菜功能区 */
+        .random-section {
+            text-align: center;
+            padding: 30px;
+            background: #fff8e8;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .random-title {
+            font-size: 22px;
+            color: #d2691e;
+            margin-bottom: 20px;
+        }
+        #randomBtn {
+            background: #d2691e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 20px;
+        }
+        #randomBtn:hover {
+            background: #b35817;
+        }
+        #resultBox {
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .result-dish {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #8b4513;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .dishes-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .result-dish {
+                font-size: 18px;
+                padding: 12px 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .dishes-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>今日点菜助手</h1>
+            <p class="subtitle">选择困难症救星 | 随机选2道菜决定今天吃啥</p>
+        </header>
+
+        <!-- 菜品列表 -->
+        <div class="dishes-list">
+            <!-- 菜品1：红烧肉（必含） -->
+            <div class="dish-card">
+                <div class="dish-name">红烧肉</div>
+                <div class="dish-desc">经典本帮菜，肥而不腻，甜咸适口</div>
+                <span class="special-tag">必选菜品</span>
+            </div>
+
+            <!-- 菜品2：回锅肉（必含） -->
+            <div class="dish-card">
+                <div class="dish-name">回锅肉</div>
+                <div class="dish-desc">川菜经典，麻辣鲜香，配米饭绝了</div>
+                <span class="special-tag">必选菜品</span>
+            </div>
+
+            <!-- 菜品3-10 -->
+            <div class="dish-card">
+                <div class="dish-name">鱼香肉丝</div>
+                <div class="dish-desc">酸甜辣咸，口感丰富，川菜代表作</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">宫保鸡丁</div>
+                <div class="dish-desc">糊辣荔枝味，外酥里嫩，下饭菜首选</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">麻婆豆腐</div>
+                <div class="dish-desc">麻辣滚烫，嫩滑入味，川菜经典</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">糖醋排骨</div>
+                <div class="dish-desc">酸甜可口，肉质紧实，老少皆宜</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">清蒸鲈鱼</div>
+                <div class="dish-desc">鲜嫩无腥，清淡营养，粤菜经典</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">辣子鸡</div>
+                <div class="dish-desc">外酥里嫩，麻辣过瘾，重庆特色</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">清炒时蔬</div>
+                <div class="dish-desc">清爽解腻，营养均衡，搭配硬菜超合适</div>
+            </div>
+
+            <div class="dish-card">
+                <div class="dish-name">番茄炒蛋</div>
+                <div class="dish-desc">国民家常菜，酸甜开胃，简单又好吃</div>
+            </div>
+        </div>
+
+        <!-- 随机选菜功能区 -->
+        <div class="random-section">
+            <h2 class="random-title">点击按钮随机选出2道菜</h2>
+            <button id="randomBtn">开始随机选菜 🎲</button>
+            <div id="resultBox">
+                <!-- 随机结果会显示在这里 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 定义10道菜品的数组（包含必选的红烧肉、回锅肉）
+        const dishes = [
+            "红烧肉",
+            "回锅肉",
+            "鱼香肉丝",
+            "宫保鸡丁",
+            "麻婆豆腐",
+            "糖醋排骨",
+            "清蒸鲈鱼",
+            "辣子鸡",
+            "清炒时蔬",
+            "番茄炒蛋"
+        ];
+
+        // 获取DOM元素
+        const randomBtn = document.getElementById('randomBtn');
+        const resultBox = document.getElementById('resultBox');
+
+        // 随机选2道菜的函数
+        function randomSelectDishes() {
+            // 深拷贝菜品数组，避免修改原数组
+            const tempDishes = [...dishes];
+            const selected = [];
+
+            // 随机选2个不重复的菜品
+            while (selected.length < 2) {
+                // 生成随机索引
+                const randomIndex = Math.floor(Math.random() * tempDishes.length);
+                // 取出并删除该菜品（避免重复）
+                const dish = tempDishes.splice(randomIndex, 1)[0];
+                selected.push(dish);
+            }
+
+            // 渲染结果到页面
+            resultBox.innerHTML = '';
+            selected.forEach(dish => {
+                const dishElement = document.createElement('div');
+                dishElement.className = 'result-dish';
+                dishElement.textContent = dish;
+                resultBox.appendChild(dishElement);
+            });
+        }
+
+        // 绑定按钮点击事件
+        randomBtn.addEventListener('click', randomSelectDishes);
+
+        // 页面加载时初始化（可选：默认随机选一次）
+        // randomSelectDishes();
+    </script>
+</body>
+</html>
